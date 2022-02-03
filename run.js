@@ -5,7 +5,7 @@ let allTables = []
 let tablesPerRow = 0
 
 try {
-	const studentFile = fs.readFileSync('./students.csv', 'utf8')
+	const studentFile = fs.readFileSync('/Desktop/SeatingChart/students.csv', 'utf8')
 	let fileRows = studentFile.split('\n')
 	fileRows.shift() //remove title row
 	fileRows.forEach(row => {
@@ -24,7 +24,7 @@ try {
 }
 
 try {
-	tablesPerRow = parseInt(fs.readFileSync('./classroom_setup/tablesPerRow.txt', 'utf8').split(',')[0])
+	tablesPerRow = parseInt(fs.readFileSync('/Desktop/SeatingChart/classroom_setup/tablesPerRow.txt', 'utf8').split(',')[0])
 	if (isNaN(tablesPerRow)){
 		console.log(`Oops seems your setting for "tables per row" is not a number. Please make sure the file "tablesPerRow.txt" only contains a number.`)
 		process.exit()	
@@ -35,7 +35,7 @@ try {
 }
 
 try {
-	const tableFile = fs.readFileSync('./classroom_setup/tables.csv', 'utf8')
+	const tableFile = fs.readFileSync('/Desktop/SeatingChart/classroom_setup/tables.csv', 'utf8')
 	const fileRows = tableFile.split('\n') 
 	fileRows.shift() //remove title row
 	fileRows.forEach(row => {
@@ -116,7 +116,7 @@ const formatTables = (tables, unassigned) => {
 	tables.forEach(table => {
 		seatingChart += '\"' + table.name + '\n\n'
 		table.students.forEach(kid => {
-			seatingChart += kid + '\n'
+			seatingChart += kid.name + '\n'
 		})
 		seatingChart += '\",'
 		if ((tables.indexOf(table) + tablesPerRow) % tablesPerRow === tablesPerRow - 1){ // TODO: needs to be extracted and tested
@@ -126,7 +126,7 @@ const formatTables = (tables, unassigned) => {
 	if (unassigned.length > 0) {
 		seatingChart += '\"' + 'Unassigned' + '\n\n'
 		unassigned.forEach(kid => {
-			seatingChart += kid + '\n'
+			seatingChart += kid.name + '\n'
 		})
 		seatingChart + '\"\n'
 	}
@@ -141,7 +141,7 @@ const createSeatingChart = (students, tables) => {
 	const tablesInLocationOrder = sortTableByLocation(assignments.tables)
 
 	const formattedTables = formatTables(tablesInLocationOrder, assignments.unassigned)
-	fs.writeFileSync('seatingchart.csv', formattedTables) //TODO: make this an HTML with inline styling??
+	fs.writeFileSync('/Desktop/SeatingChart/seatingchart.csv', formattedTables) //TODO: make this an HTML with inline styling??
 	console.log('Chart completed. See file: "seatingchart.csv"')
 }
 
