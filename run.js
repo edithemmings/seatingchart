@@ -97,6 +97,16 @@ const assignTables = (students, tables) => {
 			unassigned.push(students[i])
 		}
 	}
+	unassigned.forEach(kid => {
+		let isUnassigned = true
+		tables.forEach(table => {
+			if (isUnassigned && table.students.length < table.capacity) {
+				table.students.push(kid)
+				unassigned.splice(unassigned.indexOf(kid), 1)
+				isUnassigned = false
+			}
+		})
+	})
 	return { tables, unassigned }
 }
 
@@ -104,20 +114,21 @@ const formatTables = (tables, unassigned) => {
 	let seatingChart = ""
 
 	tables.forEach(table => {
-		seatingChart += table.name + '\n\n'
+		seatingChart += '\"' + table.name + '\n\n'
 		table.students.forEach(kid => {
 			seatingChart += kid + '\n'
 		})
-		seatingChart += '\n,'
+		seatingChart += '\",'
 		if ((tables.indexOf(table) + tablesPerRow) % tablesPerRow === tablesPerRow - 1){ // TODO: needs to be extracted and tested
 			seatingChart += '\n'
 		}
 	})
 	if (unassigned.length > 0) {
-		seatingChart += 'Unassigned' + '\n\n'
+		seatingChart += '\"' + 'Unassigned' + '\n\n'
 		unassigned.forEach(kid => {
 			seatingChart += kid + '\n'
 		})
+		seatingChart + '\"\n'
 	}
 	return seatingChart
 }
@@ -131,6 +142,7 @@ const createSeatingChart = (students, tables) => {
 
 	const formattedTables = formatTables(tablesInLocationOrder, assignments.unassigned)
 	fs.writeFileSync('seatingchart.csv', formattedTables) //TODO: make this an HTML with inline styling??
+	console.log('Chart completed. See file: "seatingchart.csv"')
 }
 
 createSeatingChart(allStudents, allTables)

@@ -114,3 +114,48 @@ if (JSON.stringify(actual3) == JSON.stringify(expect3)){
   console.log(JSON.stringify(actual3))
   console.log(JSON.stringify(expect3))
 }
+//----------------------------
+
+const students4 = ['jane', 'john', 'julia', 'jared', 'julian', 'jamie', 'jason', ]
+const tables4 = [{
+  name: 'Table 1',
+	capacity: 2,
+	students: []
+},
+{
+  name: 'Table 2',
+	capacity: 3,
+	students: []
+},
+{
+  name: 'Table 3',
+	capacity: 2,
+	students: []
+}]
+const expect4 = {
+  tables: [{
+      name: 'Table 1',
+      capacity: 2,
+      students: ['jane', 'jared']
+    },
+    {
+      name: 'Table 2',
+      capacity: 3,
+      students: ['john', 'julian', 'jason']
+    },
+    {
+      name: 'Table 3',
+      capacity: 2,
+      students: ['julia', 'jamie']
+    }],
+  unassigned: []
+}
+
+const actual4 = SeatingChart.assignTables(students4,tables4)
+if (JSON.stringify(actual4) == JSON.stringify(expect4)){
+  console.log('TEST4: PASS')
+} else {
+  console.log('TEST4: FAIL')
+  console.log(JSON.stringify(actual4))
+  console.log(JSON.stringify(expect4))
+}
