@@ -1,4 +1,4 @@
-const SeatingChart = require('./seatingchart')
+const SeatingChart = require('../../run.js')
 
 const tables1 = [{
   name: 'Table 1',

@@ -24,7 +24,7 @@ try {
 }
 
 try {
-	tablesPerRow = parseInt(fs.readFileSync('./tablesPerRow.txt', 'utf8').split(',')[0])
+	tablesPerRow = parseInt(fs.readFileSync('./classroom_setup/tablesPerRow.txt', 'utf8').split(',')[0])
 	if (isNaN(tablesPerRow)){
 		console.log(`Oops seems your setting for "tables per row" is not a number. Please make sure the file "tablesPerRow.txt" only contains a number.`)
 		process.exit()	
@@ -35,7 +35,7 @@ try {
 }
 
 try {
-	const tableFile = fs.readFileSync('./tables.csv', 'utf8')
+	const tableFile = fs.readFileSync('./classroom_setup/tables.csv', 'utf8')
 	const fileRows = tableFile.split('\n') 
 	fileRows.shift() //remove title row
 	fileRows.forEach(row => {
@@ -130,7 +130,7 @@ const createSeatingChart = (students, tables) => {
 	const tablesInLocationOrder = sortTableByLocation(assignments.tables)
 
 	const formattedTables = formatTables(tablesInLocationOrder, assignments.unassigned)
-	fs.writeFileSync('./output.csv', formattedTables) //TODO: make this an HTML with inline styling??
+	fs.writeFileSync('seatingchart.csv', formattedTables) //TODO: make this an HTML with inline styling??
 }
 
 createSeatingChart(allStudents, allTables)
